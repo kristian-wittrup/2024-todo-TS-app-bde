@@ -10,9 +10,27 @@
     <div class="container">
       <h1>Todo App</h1>
       <form class="todo-form">
+        <!-- Due date -->
+        <input type="date" id="due-date" />
+      
+        <!-- Priority -->
+        <select id="priority-select">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+      
+        <!-- Todo text -->
         <input type="text" id="todo-input" placeholder="Add a new todo" />
+      
         <button type="submit">Add</button>
       </form>
+      
+      <button id="clearCompleted">Clear completed</button>
+      
+      <!-- Sort button -->
+      <button id="sortByPriority">Sort by priority</button>
+      
       <!-- error handling message : CSS added:: .input-error & #error-message -->
       <p id="error-message">Please enter a todo item</p>
       <ul class="todo-list" id="todo-list"></ul>
