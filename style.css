@@ -73,7 +73,61 @@ h1 {
   justify-content: space-between;
   align-items: center;
 }
-.todo-item button {
+
+.todo-item span {
+  flex: 1; 
+  margin-right: 10px; 
+}
+
+.todo-item span.completed {
+  text-decoration: line-through;
+}
+
+/* .todo-item button {
+  border: none;
+  background: #dc3545;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+} */
+
+.input-error {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+#error-message {
+  color: rgb(242, 7, 7);
+  font-size: 0.9em;
+  margin-top: 5px;
+  display: none;
+}
+
+.clear-completed{
+  padding: 10px;
+  margin-left: 10px;
+  border: none;
+  background: #28a745;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.toggle-btn{
+  border: none;
+  background: #28a745;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.edit-btn{
+  border: none;
+  background: #3498db;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.remove-btn{
   border: none;
   background: #dc3545;
   color: #fff;
@@ -81,15 +135,44 @@ h1 {
   cursor: pointer;
 }
 
-
-.input-error {
-  border: 2px solid red;
-  background-color: #ffe6e6; /* Optional: Light red background to indicate error */
+.favorite-btn{
+  border: none;
+  background: #dc9935;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
-#error-message {
-  color: red;
-  font-size: 0.9em;
-  margin-top: 5px;
-  display: none;
+.duplicate-btn {
+  border: none;
+  background: #17a2b8;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
 }
+
+.copy-btn {
+  border: none;
+  background: #6f42c1;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.favorite-filter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  margin-top: 8px;
+  margin-left: 4px;
+  font-size: 0.95rem;
+}
+.favorite-filter input[type="checkbox"] {
+  transform: scale(1.2);
+  accent-color: #de9931;
+  cursor: pointer;
+}
+
+
+
