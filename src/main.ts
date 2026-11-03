@@ -26,6 +26,11 @@ export interface Todo {
 // Step 3: Initialize an empty array to store todos
 // Initialize an empty array: This array will store the list of todos.
 export let todos: Todo[] = [];
+// Only these three filter values are allowed.
+type Filter = 'all' | 'active' | 'completed';
+
+// Show all tasks when the app opens.
+let currentFilter: Filter = 'all';
 
 // Step 4: Get references to the HTML elements
 // Get references to the HTML elements: These references will be used to interact with the DOM
@@ -66,9 +71,21 @@ export const toggleTodo = (id: number): void => {
 const renderTodos = (): void => { // void because no return - what we are doing is updating the DOM
   // Clear the current list
   todoList.innerHTML = '';
+  // Choose which tasks to show without changing the full list.
+  const filteredTodos = todos.filter(todo => {
+    if (currentFilter === 'active') {
+      return !todo.completed;
+    }
 
+    if (currentFilter === 'completed') {
+      return todo.completed;
+    }
+
+    return true;
+  });
+  
   // Iterate over the todos array and create list items for each todo
-  todos.forEach(todo => { // In this specific case, .forEach is more suitable because we are directly modifying the DOM for each todo item.
+  filteredTodos.forEach(todo => { // In this specific case, .forEach is more suitable because we are directly modifying the DOM for each todo item.
     const li = document.createElement('li');
     li.className = 'todo-item'; // Add a class to the list item
     // Use template literals to create the HTML content for each list item
@@ -91,6 +108,26 @@ const renderTodos = (): void => { // void because no return - what we are doing 
     todoList.appendChild(li); // Append the list item to the ul element
   });
 };
+
+const allButton = document.getElementById('filter-all') as HTMLButtonElement;
+const activeButton = document.getElementById('filter-active') as HTMLButtonElement;
+const completedButton = document.getElementById('filter-completed') as HTMLButtonElement;
+
+// Change the filter and highlight its button.
+const setFilter = (filter: Filter): void => {
+  currentFilter = filter;
+
+  allButton.classList.toggle('selected', filter === 'all');
+  activeButton.classList.toggle('selected', filter === 'active');
+  completedButton.classList.toggle('selected', filter === 'completed');
+
+  renderTodos();
+};
+
+// Show the tasks for the clicked filter.
+allButton.addEventListener('click', () => setFilter('all'));
+activeButton.addEventListener('click', () => setFilter('active'));
+completedButton.addEventListener('click', () => setFilter('completed'));
 
 // Step 6.1: Function to render the list of todos
 // Initial render
