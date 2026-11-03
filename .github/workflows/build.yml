@@ -34,3 +34,11 @@ jobs:
       # Check TypeScript and build the app.
       - name: Build app
         run: npm run build
+
+
+      # Start the app and run browser tests.
+      - name: Run tests
+        run: >
+          npx testcafe chrome:headless test/completion.js
+          --app "npm run dev -- --port 5173 --strictPort"
+          --app-init-delay 5000

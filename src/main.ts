@@ -51,6 +51,16 @@ export const addTodo = (text: string): void => {
   renderTodos(); // Render the updated list of todos => create the function next
 };
 
+// Switch the task between active and completed.
+export const toggleTodo = (id: number): void => {
+  const todo = todos.find(todo => todo.id === id);
+
+  if (todo) {
+    todo.completed = !todo.completed;
+    renderTodos();
+  }
+};
+
 // Step 6: Function to render the list of todos
 // Function to render the list of todos: This function updates the DOM to display the current list of todos.
 const renderTodos = (): void => { // void because no return - what we are doing is updating the DOM
@@ -63,10 +73,18 @@ const renderTodos = (): void => { // void because no return - what we are doing 
     li.className = 'todo-item'; // Add a class to the list item
     // Use template literals to create the HTML content for each list item
     li.innerHTML = `
-      <span>${todo.text}</span>
+      <label>
+        <input type="checkbox" ${todo.completed ? 'checked' : ''}>
+        <span>${todo.text}</span>
+      </label>
       <button>Remove</button>
-         <button id="editBtn">Edit</button>
+      <button id="editBtn">Edit</button>
     `;
+
+    // Update the task status when the checkbox changes.
+    const checkbox = li.querySelector('input');
+    checkbox?.addEventListener('change', () => toggleTodo(todo.id));
+
     // addRemoveButtonListener is further down in the code. We have onclick in the function instead of template literals. More safe to use addEventListener.
     addRemoveButtonListener(li, todo.id); // Add event listener to the remove button. li is the parent element, and todo.id is the ID of the todo. 
     addEditButtonListener(li, todo.id); // Add event listener to the remove button. li is the parent element, and todo.id is the ID of the todo. 
