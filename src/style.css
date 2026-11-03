@@ -96,3 +96,26 @@ h1 {
 .todo-item input:checked + span {
   text-decoration: line-through;
 }
+
+/* Keep the filter buttons in one row. */
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.filters button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Highlight the selected filter. */
+.filters button.selected {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
