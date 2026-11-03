@@ -39,7 +39,6 @@ body {
   width: var(--container-width);
 }
 
-
 h1 {
   text-align: center;
 }
@@ -81,7 +80,6 @@ h1 {
   cursor: pointer;
 }
 
-
 .input-error {
   border: 2px solid red;
   background-color: #ffe6e6; /* Optional: Light red background to indicate error */
@@ -92,4 +90,9 @@ h1 {
   font-size: 0.9em;
   margin-top: 5px;
   display: none;
+}
+
+/* Cross out the text when the task is completed. */
+.todo-item input:checked + span {
+  text-decoration: line-through;
 }
