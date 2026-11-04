@@ -37,7 +37,8 @@ let currentFilter: Filter = 'all';
 const todoInput = document.getElementById('todo-input') as HTMLInputElement; // exist in HTML file
 const todoForm = document.querySelector('.todo-form') as HTMLFormElement;    // exist in HTML file
 const todoList = document.getElementById('todo-list') as HTMLUListElement;   // exist in HTML file
-
+const progressBar = document.getElementById('task-progress') as HTMLProgressElement;
+const progressText = document.getElementById('progress-text') as HTMLLabelElement;
 
 
 
@@ -66,11 +67,26 @@ export const toggleTodo = (id: number): void => {
   }
 };
 
+// Calculate progress using all tasks, including hidden ones.
+const updateProgress = (): void => {
+  const completedCount = todos.filter(todo => todo.completed).length;
+  let percentage = 0;
+
+  // Avoid dividing by zero when the list is empty.
+  if (todos.length > 0) {
+    percentage = Math.round((completedCount / todos.length) * 100);
+  }
+
+  progressBar.value = percentage;
+  progressText.textContent = `Completed: ${percentage}%`;
+};
+
 // Step 6: Function to render the list of todos
 // Function to render the list of todos: This function updates the DOM to display the current list of todos.
 const renderTodos = (): void => { // void because no return - what we are doing is updating the DOM
   // Clear the current list
   todoList.innerHTML = '';
+  updateProgress();
   // Choose which tasks to show without changing the full list.
   const filteredTodos = todos.filter(todo => {
     if (currentFilter === 'active') {
