@@ -40,6 +40,57 @@ const todoList = document.getElementById('todo-list') as HTMLUListElement;   // 
 const progressBar = document.getElementById('task-progress') as HTMLProgressElement;
 const progressText = document.getElementById('progress-text') as HTMLLabelElement;
 
+// Save tasks as text because Local Storage stores strings.
+const saveTodos = (): void => {
+  try {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  } catch {
+    console.error('Could not save tasks.');
+  }
+};
+// Load saved tasks and check their fields before using them.
+const loadTodos = (): Todo[] => {
+  try {
+    const saved = localStorage.getItem('todos');
+
+    if (saved === null) {
+      return [];
+    }
+
+    const data: unknown = JSON.parse(saved);
+
+    if (!Array.isArray(data)) {
+      throw new Error('Saved tasks must be an array.');
+    }
+
+    const loadedTodos: Todo[] = [];
+
+    for (const item of data) {
+      if (
+        typeof item !== 'object' ||
+        item === null ||
+        typeof item.id !== 'number' ||
+        !Number.isFinite(item.id) ||
+        typeof item.text !== 'string' ||
+        typeof item.completed !== 'boolean'
+      ) {
+        throw new Error('Invalid saved task.');
+      }
+
+      loadedTodos.push({
+        id: item.id,
+        text: item.text,
+        completed: item.completed,
+      });
+    }
+
+    return loadedTodos;
+  } catch {
+    console.error('Could not load tasks.');
+    return [];
+  }
+};
+
 
 
 
@@ -53,6 +104,7 @@ export const addTodo = (text: string): void => {
     completed: false,
   };
   todos.push(newTodo);
+  saveTodos();
   console.log("Todo added: ", todos); // Log the updated list of todos to the console
   renderTodos(); // Render the updated list of todos => create the function next
 };
@@ -63,6 +115,7 @@ export const toggleTodo = (id: number): void => {
 
   if (todo) {
     todo.completed = !todo.completed;
+    saveTodos();
     renderTodos();
   }
 };
@@ -145,14 +198,6 @@ allButton.addEventListener('click', () => setFilter('all'));
 activeButton.addEventListener('click', () => setFilter('active'));
 completedButton.addEventListener('click', () => setFilter('completed'));
 
-// Step 6.1: Function to render the list of todos
-// Initial render
-renderTodos(); // Call the renderTodos function to display the initial list of todos : Should be at the end of the code to ensure that the function is defined before it is called.
-// The initial render is important to display the list of todos when the page is first loaded. Without it, the list would be empty until a new todo is added.
-// Move it when code is complete ( refactoring ) 
-
-
-
 //Improved code for step 7 - user input validation - move the error message to the top of the Typescript file
 const errorMessage = document.getElementById('error-message') as HTMLParagraphElement; // Should be moved to the top + added to the HTML file
 
@@ -197,6 +242,7 @@ const addRemoveButtonListener = (li: HTMLLIElement, id: number): void => {
 // Function to remove a todo by ID: This function removes a todo from the array based on its ID.
 export const removeTodo = (id: number): void => {
   todos = todos.filter(todo => todo.id !== id);
+  saveTodos();
   renderTodos(); // Re-render the updated list of todos
 }; 
 
@@ -215,6 +261,7 @@ const editTodo = (id:number) => {
     const text = prompt('Edit todo', todo.text)
     if (text) {
       todo.text = text
+      saveTodos();
       renderTodos()
     }
   }
@@ -246,6 +293,10 @@ const initializeColorPicker = (): void => {
 document.addEventListener('DOMContentLoaded', () => {
   initializeColorPicker();
 });
+
+// Load and show tasks after all functions are ready.
+todos = loadTodos();
+renderTodos();
 
 /** 
  * Kristian: 6th of September 2024, BDE
