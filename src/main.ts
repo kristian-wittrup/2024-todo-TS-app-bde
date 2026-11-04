@@ -14,6 +14,7 @@
 
 // 1 Import the CSS file: This ensures that the styles are applied to the HTML elements.
 import './style.css';
+import { calculateProgress } from './progress';
 
 // Step 2: Define the Todo interface
 // Define the Todo interface: This interface defines the structure of a todo item.
@@ -120,15 +121,9 @@ export const toggleTodo = (id: number): void => {
   }
 };
 
-// Calculate progress using all tasks, including hidden ones.
+// Show progress for all tasks, including hidden ones.
 const updateProgress = (): void => {
-  const completedCount = todos.filter(todo => todo.completed).length;
-  let percentage = 0;
-
-  // Avoid dividing by zero when the list is empty.
-  if (todos.length > 0) {
-    percentage = Math.round((completedCount / todos.length) * 100);
-  }
+  const percentage = calculateProgress(todos);
 
   progressBar.value = percentage;
   progressText.textContent = `Completed: ${percentage}%`;

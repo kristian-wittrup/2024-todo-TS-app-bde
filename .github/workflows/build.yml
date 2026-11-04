@@ -35,6 +35,10 @@ jobs:
       - name: Build app
         run: npm run build
 
+      # Check the progress calculation.
+      - name: Run unit tests
+        run: npx vitest run src/progress.test.ts
+
       # Start the app and run all browser tests.
       - name: Run tests
         run: >
