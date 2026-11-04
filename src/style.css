@@ -1,121 +1,309 @@
 :root {
-  --font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --line-height: 1.5;
-  --font-weight: 400;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  color: #202b26;
+  background-color: #f2f5f3;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 
-  --color-scheme: light dark;
-  --color: rgba(255, 255, 255, 0.87);
-  --background-color: #242424;
+  --green: #23734f;
+  --green-dark: #19563a;
+  --border: #dce4de;
+  --muted: #647169;
+}
 
-  --font-synthesis: none;
-  --text-rendering: optimizeLegibility;
-  --webkit-font-smoothing: antialiased;
-  --moz-osx-font-smoothing: grayscale;
-
-  --body-background-color: #f4f4f4;
-  --container-background-color: #fff;
-  --container-padding: 20px;
-  --container-border-radius: 5px;
-  --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  --container-width: 300px;
+/* Include padding and borders in element widths. */
+* {
+  box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-family);
-  background-color: var(--body-background-color);
   margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  padding: 64px 20px;
+  min-height: 100vh;
+  background-color: #f2f5f3;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Keep keyboard navigation visible. */
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 3px;
 }
 
 .container {
-  background: var(--container-background-color);
-  padding: var(--container-padding);
-  border-radius: var(--container-border-radius);
-  box-shadow: var(--container-box-shadow);
-  width: var(--container-width);
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 16px 48px rgba(30, 55, 40, 0.08);
 }
 
 h1 {
-  text-align: center;
-}
-.todo-form {
-  display: flex;
-  justify-content: space-between;
-}
-.todo-form input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-.todo-form button {
-  padding: 10px;
-  border: none;
-  background: #28a745;
-  color: #fff;
-  border-radius: 3px;
-  cursor: pointer;
-}
-.todo-list {
-  list-style: none;
-  padding: 0;
-}
-.todo-item {
-  background: #f9f9f9;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.todo-item button {
-  border: none;
-  background: #dc3545;
-  color: #fff;
-  border-radius: 3px;
-  cursor: pointer;
+  margin: 0 0 28px;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -1px;
 }
 
-.input-error {
-  border: 2px solid red;
-  background-color: #ffe6e6; /* Optional: Light red background to indicate error */
+/* Let the input shrink on small screens. */
+.todo-form {
+  display: flex;
+  gap: 10px;
+}
+
+.todo-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  color: #202b26;
+  background: #f7f9f7;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.todo-form input::placeholder {
+  color: var(--muted);
+}
+
+.todo-form button {
+  padding: 14px 22px;
+  color: #fff;
+  font-weight: 600;
+  background: var(--green);
+  border: none;
+  border-radius: 12px;
+}
+
+.todo-form button:hover {
+  background: var(--green-dark);
+}
+
+.todo-form input.input-error {
+  border-color: #b42335;
+  background: #fff1f2;
 }
 
 #error-message {
-  color: red;
-  font-size: 0.9em;
-  margin-top: 5px;
   display: none;
+  margin: 8px 0 0;
+  color: #b42335;
+  font-size: 14px;
 }
 
-/* Cross out the text when the task is completed. */
-.todo-item input:checked + span {
-  text-decoration: line-through;
-}
-
-/* Keep the filter buttons in one row. */
+/* Group the filters and highlight the selected one. */
 .filters {
   display: flex;
-  gap: 8px;
-  margin-top: 15px;
+  gap: 4px;
+  margin: 24px 0;
+  padding: 5px;
+  background: #f0f4f1;
+  border-radius: 12px;
 }
 
 .filters button {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  flex: 1;
+  min-width: 0;
+  padding: 10px 6px;
+  color: #526158;
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+}
+
+.filters button:hover {
+  background: #e2eae4;
+}
+
+.filters button.selected {
+  color: var(--green-dark);
   background: #fff;
-  color: #333;
+  box-shadow: 0 2px 6px rgba(30, 55, 40, 0.08);
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.todo-item:hover {
+  background: #fafcfb;
+}
+
+/* Give task text the available space and allow long words to wrap. */
+.todo-item label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
   cursor: pointer;
 }
 
-/* Highlight the selected filter. */
-.filters button.selected {
-  background: #333;
-  color: #fff;
-  border-color: #333;
+.todo-item span {
+  min-width: 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.todo-item input[type='checkbox'] {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 3px 0 0;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+
+.todo-item input:checked + span {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.todo-item button {
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 8px 10px;
+  color: #526158;
+  font-size: 13px;
+  font-weight: 600;
+  background: #f0f4f1;
+  border: none;
+  border-radius: 8px;
+}
+
+.todo-item button:hover {
+  background: #e2eae4;
+}
+
+/* The first button in each task is Remove. */
+.todo-item button:first-of-type {
+  color: #a3293a;
+  background: #fff1f2;
+}
+
+.todo-item button:first-of-type:hover {
+  background: #ffe1e5;
+}
+
+/* Show progress in a separate block. */
+.progress {
+  margin-top: 28px;
+  padding: 18px;
+  background: #f0f6f2;
+  border-radius: 12px;
+}
+
+.progress label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--green-dark);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.progress progress {
+  display: block;
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  background: #dce7df;
+}
+
+/* Style the progress bar in Chrome and Safari. */
+.progress progress::-webkit-progress-bar {
+  background: #dce7df;
+  border-radius: 10px;
+}
+
+.progress progress::-webkit-progress-value {
+  background: var(--green);
+  border-radius: 10px;
+}
+
+/* Style the progress bar in Firefox. */
+.progress progress::-moz-progress-bar {
+  background: var(--green);
+  border-radius: 10px;
+}
+
+/* Keep the background label and color picker together. */
+.background {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+#colorPicker {
+  display: block;
+  width: 40px;
+  height: 32px;
+  margin: 0;
+  padding: 3px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Give task text a full row on small screens. */
+@media (max-width: 480px) {
+  body {
+    padding: 24px 12px;
+  }
+
+  .container {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .todo-form button {
+    padding: 14px 18px;
+  }
+
+  .todo-item {
+    flex-wrap: wrap;
+  }
+
+  .todo-item label {
+    flex-basis: 100%;
+  }
 }
