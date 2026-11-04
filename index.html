@@ -25,6 +25,12 @@
     </div>
     <ul class="todo-list" id="todo-list"></ul>
 
+    <!-- Show progress for all tasks. -->
+    <div class="progress">
+      <label for="task-progress" id="progress-text">Completed: 0%</label>
+      <progress id="task-progress" value="0" max="100"></progress>
+    </div>
+
     <input type="color" id="colorPicker" />
   </div>
   <script type="module" src="/src/main.ts"></script>
